@@ -21,7 +21,15 @@ func run_gradle_on_thread(function,arg):
 func gradle_import(arg):
 	var output = run_task("tasks")
 	task_parser.load_tasks(output)
-	task_parser.build_tree($ScrollContainer/Tree)
+	$ScrollContainer.get_child(0).queue_free()
+	var tree = Tree.new()
+	$ScrollContainer.add_child(tree)
+	tree.connect("tree_entered",self,"build_tree")
+	task_parser.build_tree(tree)
+
+func build_tree():
+	
+	pass
 
 func run_task(task)->Array:
 	var output = []
